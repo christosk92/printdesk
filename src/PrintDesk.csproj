@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Driverless printing over IPP: images and PDFs are rasterized here and sent straight to the printer, so no
+       vendor driver is needed (works on ARM64). Publish a native exe: dotnet publish -c Release -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>PrintDesk</RootNamespace>
+    <AssemblyName>PrintDesk</AssemblyName>
+    <!-- NU1903 flags Microsoft.DotNet.ILCompiler (the NativeAOT compiler the SDK adds for PublishAot), a build-time tool
+         that never ships inside the app. Keep the audit warning visible, but don't fail the build on it; a newer SDK
+         brings the patched compiler. -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1903</WarningsNotAsErrors>
+  </PropertyGroup>
+
+</Project>

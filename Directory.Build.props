@@ -1,0 +1,25 @@
+<Project>
+
+  <!-- The FluentGpu engine checkout, referenced by path (FluentGpu.App.props brings the whole app baseline: GC posture,
+       PublishAot for the exe, the engine ProjectReferences and the source generators). A git-ignored
+       EngineRoot.local.props or -p:EngineRoot=... overrides the default below. -->
+  <Import Project="$(MSBuildThisFileDirectory)EngineRoot.local.props"
+          Condition="'$(EngineRoot)' == '' and Exists('$(MSBuildThisFileDirectory)EngineRoot.local.props')" />
+  <PropertyGroup>
+    <EngineRoot Condition="'$(EngineRoot)' == ''">..\fgpu\fluent-gpu\</EngineRoot>
+    <EngineRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '$(EngineRoot)'))</EngineRoot>
+    <_FgAppPropsPath>$(EngineRoot)FluentGpu.App.props</_FgAppPropsPath>
+  </PropertyGroup>
+
+  <Import Project="$(_FgAppPropsPath)" Condition="Exists('$(_FgAppPropsPath)')" />
+
+  <Target Name="RequireFluentGpuCheckout" BeforeTargets="BeforeBuild;Restore;CollectPackageReferences"
+          Condition="!Exists('$(_FgAppPropsPath)')">
+    <Error Text="FluentGpu engine checkout not found: '$(_FgAppPropsPath)'. Set EngineRoot (EngineRoot.local.props or -p:EngineRoot=...)." />
+  </Target>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>
