@@ -2,6 +2,8 @@
 
 Driverless printing for Windows 11, built on [FluentGpu](https://github.com/christosk92/fluent-gpu).
 
+![PrintDesk in dark mode: the printers pane with a printer that needs attention, and the Studio Pro 9000 page with its picture, print settings, a print queue with one job printing and one printed, and ink levels](docs/screenshot.png)
+
 PrintDesk prints pictures and PDFs straight to network printers that speak IPP (IPP Everywhere, AirPrint, Mopria),
 so no vendor driver is needed. That makes it work on Windows on ARM, where many printer drivers don't install.
 

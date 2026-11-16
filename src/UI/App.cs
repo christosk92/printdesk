@@ -26,7 +26,13 @@ sealed class Shell : Component
         var post = UsePost();
         var store = Program.Store;
         var paneToggle = UseSignal(0);
-        UseEffect(() => { store.Start(post, Program.PrintAtStart, Program.AddPrinters); });
+        UseEffect(() =>
+        {
+            store.Start(post, Program.PrintAtStart, Program.AddPrinters);
+            // A --shot capture reads the back buffer, not the screen. Off-screen, no other window can cover it, and a
+            // covered window is parked by the engine (no frames, timers or updates), which froze earlier captures.
+            if (Program.IsShot) FluentGpu.FluentApp.MoveWindowPx(-20000f, -20000f);
+        });
         UseInterval(store.Tick, 2500f);
 
         return new BoxEl

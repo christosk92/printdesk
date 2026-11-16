@@ -45,6 +45,7 @@ static class Program
         string? shot = Arg(args, "--shot");
         if (shot is not null)
         {
+            IsShot = true;
             if (args.Contains("--light")) Theme.Dark = false;
             if (args.Contains("--dark")) Theme.Dark = true;
             int frames = int.TryParse(Arg(args, "--frames"), out var f) ? f : 60;
@@ -59,6 +60,9 @@ static class Program
         FluentApp.Run(() => new App(), options);
         Imaging.Pdf.ExitSafely();
     }
+
+    /// <summary>A --shot run: the window is moved off-screen (see <see cref="Shell"/>).</summary>
+    public static bool IsShot { get; private set; }
 
     private static string? Arg(string[] args, string name)
     {
